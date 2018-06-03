@@ -1,0 +1,32 @@
+{
+  "name": "challengewebapi",
+  "version": "1.0.0",
+  "description": "To complete the installation of System.Web.Optimization.React, you need to create one or more\r bundles containing your JSX files:",
+  "main": "index.jsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "webpack": "^4.10.2"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
+  "dependencies": {
+    "babel-preset-react": "^6.24.1",
+    "path": "^0.12.7",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "webpack-cli": "^3.0.1"
+  }
+}

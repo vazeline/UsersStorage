@@ -1,0 +1,8 @@
+.vs/
+Challenge.Data/bin/
+Challenge.Data/obj/
+ChallengeWebApi.Tests/obj/
+ChallengeWebApi/bin/
+ChallengeWebApi/node_modules/
+packages/
+ChallengeWebApi/obj/
