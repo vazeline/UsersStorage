@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -27,27 +28,45 @@ namespace ChallengeWebApi.Controllers
             _usersRepo = usersRepo;
         }
 
-        [HttpPost/*, Route("api/upload")*/]
-        public async Task<IHttpActionResult> Upload()
+        [HttpPost, Route("api/users/upload")]
+        public async Task<HttpResponseMessage> Upload()
         {
             if (!Request.Content.IsMimeMultipartContent())
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
 
             var provider = new MultipartMemoryStreamProvider();
-            await Request.Content.ReadAsMultipartAsync(provider);
-            foreach (var file in provider.Contents)
-            {
-                using (var stream = await file.ReadAsStreamAsync())
-                {
-                    StreamReader sr = new StreamReader(stream);
-                    string userLine = sr.ReadLine();
-                    User u = DeserializeLine(userLine);
-                    _usersRepo.Insert(u);
-                }
-            }
 
-            _usersRepo.Save();
-            return Ok();
+            return await Request.Content.ReadAsMultipartAsync(provider).
+                ContinueWith<HttpResponseMessage>( o =>
+                    {
+                        MemoryStream tempStream = new MemoryStream();
+                        foreach (var cont in provider.Contents)
+                        {
+                            cont.ReadAsStreamAsync().Result.CopyTo(tempStream);
+                            tempStream.Seek(0, SeekOrigin.End);
+
+                            StreamContent streamContent = new StreamContent(tempStream);
+                            foreach (var header in Request.Content.Headers)
+                                streamContent.Headers.Add(header.Key, header.Value);
+                            
+                            tempStream.Position = 0;
+                            var str = UTF8Encoding.UTF8.GetString(tempStream.GetBuffer());
+                            StringReader sr = new StringReader(str);
+                            string userLine = null;
+                            while ((userLine = sr.ReadLine()) != null)
+                            {
+                                User u = DeserializeLine(userLine);
+                                _usersRepo.Insert(u);
+                            }
+                            _usersRepo.Save();
+                            
+                        }
+                        return new HttpResponseMessage()
+                        {
+                            Content = new StringContent("File uploaded.")
+                        };
+                    }
+                );
         }
 
         private User DeserializeLine(string userLine)
@@ -70,7 +89,7 @@ namespace ChallengeWebApi.Controllers
             return res;
         }
 
-        // GET: api/UserProfiles/5
+        // GET: api/Users/5
         [ResponseType(typeof(UserModel))]
         public IHttpActionResult GetUserProfile(int id)
         {
@@ -119,7 +138,7 @@ namespace ChallengeWebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/UserProfiles
+        // POST: api/Users
         [ResponseType(typeof(UserModel))]
         public IHttpActionResult PostUserProfile(UserModel userProfile)
         {
@@ -134,7 +153,7 @@ namespace ChallengeWebApi.Controllers
             return CreatedAtRoute("DefaultApi", new { id = userProfile.Id }, userProfile);
         }
 
-        // DELETE: api/UserProfiles/5
+        // DELETE: api/Users/5
         [ResponseType(typeof(UserModel))]
         public IHttpActionResult DeleteUserProfile(int id)
         {

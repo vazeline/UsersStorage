@@ -10,7 +10,7 @@ namespace ChallengeWebApi.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "Welcome Page";
 
             return View();
         }

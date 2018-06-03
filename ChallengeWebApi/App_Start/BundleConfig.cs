@@ -36,6 +36,8 @@ namespace ChallengeWebApi
                 //"~/app/CommentForm.jsx",
                 "~/app/app.jsx"
             ));
+
+            bundles.Add(new LessBundle("~/Content/less").Include("~/Content/*.less"));
         }
     }
 }
