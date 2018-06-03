@@ -6,7 +6,6 @@ namespace ChallengeWebApi
 {
     public static class Structuremap
     {
-        // todo: replace static with something like httpcontext.items
         public static StructureMapDependencyScope StructureMapDependencyScope { get; set; }
 
         public static void Register(HttpConfiguration config)

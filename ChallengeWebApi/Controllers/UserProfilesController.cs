@@ -55,8 +55,15 @@ namespace ChallengeWebApi.Controllers
                             string userLine = null;
                             while ((userLine = sr.ReadLine()) != null)
                             {
-                                User u = DeserializeLine(userLine);
-                                _usersRepo.Insert(u);
+                                try
+                                {
+                                    User u = DeserializeLine(userLine);
+                                    _usersRepo.Insert(u);
+                                }
+                                catch(Exception ex)
+                                {
+                                    //log error
+                                }
                             }
                             _usersRepo.Save();
                             
