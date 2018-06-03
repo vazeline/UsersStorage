@@ -22,6 +22,35 @@ namespace Challenge.Data.Entities
 
         public decimal? Salary { get; set; }
 
+        public byte[] Version { get; set; }
+
+        public static User DeserializeLine(string userLine)
+        {
+            string[] split = userLine.Split(';');
+            try
+            {
+                return new User
+                {
+                    FirstName = split[0],
+                    LastName = split[1],
+                    PhoneNumber = split[2],
+                    Salary = ToDecimal(split[3])
+                };
+            }
+            catch (Exception ex)
+            {
+                //logerrror
+            }
+            return null;
+        }
+
+        private static decimal? ToDecimal(string s)
+        {
+            decimal res;
+            if (!decimal.TryParse(s, out res))
+                return null;
+            return res;
+        }
     }
 
     internal class UserMapping : EntityTypeConfiguration<User>
@@ -34,6 +63,7 @@ namespace Challenge.Data.Entities
             Property(t => t.LastName).HasColumnName("LastName").HasMaxLength(50);
             Property(t => t.PhoneNumber).HasColumnName("PhoneNumber").HasMaxLength(25);
             Property(t => t.Salary).HasColumnName("Salary");
+            Property(t => t.Version).HasColumnName("Version");
         }
     }
 }

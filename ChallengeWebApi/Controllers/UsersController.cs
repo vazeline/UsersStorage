@@ -29,72 +29,62 @@ namespace ChallengeWebApi.Controllers
         }
 
         [HttpPost, Route("api/users/upload")]
-        public async Task<HttpResponseMessage> Upload()
+        public async Task<IHttpActionResult> Upload()
         {
             if (!Request.Content.IsMimeMultipartContent())
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
 
             var provider = new MultipartMemoryStreamProvider();
-
-            return await Request.Content.ReadAsMultipartAsync(provider).
-                ContinueWith<HttpResponseMessage>( o =>
-                    {
-                        MemoryStream tempStream = new MemoryStream();
-                        foreach (var cont in provider.Contents)
+            try
+            {
+                return await Request.Content.ReadAsMultipartAsync(provider).
+                    ContinueWith<IHttpActionResult>(o =>
                         {
-                            cont.ReadAsStreamAsync().Result.CopyTo(tempStream);
-                            tempStream.Seek(0, SeekOrigin.End);
-
-                            StreamContent streamContent = new StreamContent(tempStream);
-                            foreach (var header in Request.Content.Headers)
-                                streamContent.Headers.Add(header.Key, header.Value);
-                            
-                            tempStream.Position = 0;
-                            var str = UTF8Encoding.UTF8.GetString(tempStream.GetBuffer());
-                            StringReader sr = new StringReader(str);
-                            string userLine = null;
-                            while ((userLine = sr.ReadLine()) != null)
+                            MemoryStream tempStream = new MemoryStream();
+                            try
                             {
-                                try
+                                foreach (var cont in provider.Contents)
                                 {
-                                    User u = DeserializeLine(userLine);
-                                    _usersRepo.Insert(u);
-                                }
-                                catch(Exception ex)
-                                {
-                                    //log error
+                                    cont.ReadAsStreamAsync().Result.CopyTo(tempStream);
+                                    tempStream.Seek(0, SeekOrigin.End);
+
+                                    StreamContent streamContent = new StreamContent(tempStream);
+                                    foreach (var header in Request.Content.Headers)
+                                        streamContent.Headers.Add(header.Key, header.Value);
+
+                                    tempStream.Position = 0;
+                                    var str = Encoding.UTF8.GetString(tempStream.GetBuffer());
+                                    StringReader sr = new StringReader(str);
+                                    string userLine = null;
+                                    while ((userLine = sr.ReadLine()) != null)
+                                    {
+
+                                        User u = Challenge.Data.Entities.User.DeserializeLine(userLine);
+                                        if (u != null)
+                                            _usersRepo.Insert(u);
+
+                                    }
+                                    _usersRepo.Save();
                                 }
                             }
-                            _usersRepo.Save();
+                            catch (Exception ex)
+                            {
+                                //log error
+                                return InternalServerError(ex);
+                            }
                             
+                            return Redirect(new Uri("/react/uploadsuccess", UriKind.Relative));
                         }
-                        return new HttpResponseMessage()
-                        {
-                            Content = new StringContent("File uploaded.")
-                        };
-                    }
-                );
-        }
-
-        private User DeserializeLine(string userLine)
-        {
-            string[] split = userLine.Split(';');
-            return new User
+                    );
+            }
+            catch (Exception ex)
             {
-                FirstName = split[0],
-                LastName = split[1],
-                PhoneNumber = split[2],
-                Salary = ToDecimal(split[3])
-            };
+                //logerror
+                return InternalServerError(ex);
+            }
         }
 
-        private decimal? ToDecimal(string s)
-        {
-            decimal res;
-            if(!decimal.TryParse(s, out res))
-                return null;
-            return res;
-        }
+
 
         // GET: api/Users/5
         [ResponseType(typeof(UserModel))]
@@ -132,11 +122,11 @@ namespace ChallengeWebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                //if (!UserProfileExists(id))
-                //{
-                //    return NotFound();
-                //}
-                //else
+                if (!UserExists(id))
+                {
+                    return NotFound();
+                }
+                else
                 {
                     throw;
                 }
@@ -175,7 +165,10 @@ namespace ChallengeWebApi.Controllers
 
             return Ok(userProfile);
         }
-
+        private bool UserExists(int id)
+        {
+            return _usersRepo.Find(id) != null;
+        }
 
     }
 }

@@ -60,10 +60,12 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="JavaScriptEngineSwitcher.ChakraCore, Version=2.4.8.0, Culture=neutral, PublicKeyToken=c608b2a8cc9e4472, processorArchitecture=MSIL">
       <HintPath>..\packages\JavaScriptEngineSwitcher.ChakraCore.2.4.8\lib\net45\JavaScriptEngineSwitcher.ChakraCore.dll</HintPath>
@@ -223,7 +225,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\StructureMap.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\UserProfilesController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Dependency\IoC.cs" />
     <Compile Include="Dependency\DefaultRegistry.cs" />
     <Compile Include="Dependency\StructureMapDependencyScope.cs" />
@@ -237,6 +239,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\UsersDB_log.ldf">
+      <DependentUpon>UsersDB.mdf</DependentUpon>
+    </Content>
     <Content Include="React\AddDialog.js" />
     <Content Include="React\App.js" />
     <Content Include="App_Data\UsersDB.ldf" />
@@ -286,6 +291,8 @@
   <ItemGroup>
     <Content Include="package.json" />
     <Content Include="package-lock.json" />
+    <Content Include="Content\App.less" />
+    <Content Include="Content\index.less" />
     <None Include="packages.config" />
     <Content Include="webpack.config.js" />
   </ItemGroup>

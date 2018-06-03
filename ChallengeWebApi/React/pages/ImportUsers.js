@@ -6,7 +6,10 @@ import Button from '../Button';
 
 export default class ImportUsers extends Component{
     render(){
-        return (<Layout>
+        return (
+        <Layout>
+           <div className="commonContainer">
+            <span className="headerText">Welcome to users storage</span>
             <form id="postFile" action="/api/Users/Upload" enctype="multipart/form-data" method="POST">
             <div style={{display:"table"}}>
             <div style={{display:"table-cell", verticalAlign: "left"}} >
@@ -19,6 +22,7 @@ export default class ImportUsers extends Component{
                 </div>
                 </div>
             </form>
+            </div>
         </Layout>);
     }
 }

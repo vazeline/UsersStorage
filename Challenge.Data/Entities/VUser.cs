@@ -19,5 +19,7 @@ namespace Challenge.Data.Entities
 
         public decimal? SalaryRate { get; set; }
 
+        public byte[] Version { get; set; }
+
     }
 }

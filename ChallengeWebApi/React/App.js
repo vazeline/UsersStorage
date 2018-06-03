@@ -9,6 +9,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import Welcome from './pages/Welcome';
 import MainPage from './pages/MainPage';
 import ImportUsers from './pages/ImportUsers';
+import ImportSuccess from './pages/ImportSuccess';
 
 class App extends Component {
     constructor(props) {
@@ -22,6 +23,7 @@ class App extends Component {
                     <Route exact path="/react/welcome" render={(rprops) => <Welcome history={rprops.history} />} />
                     <Route path="/react/mainpage" render={(rprops) => <MainPage history={rprops.history} />} />
                     <Route path="/react/importusers" render={(rprops) => <ImportUsers history={rprops.history} />} />
+                    <Route path="/react/uploadsuccess" render={(rprops) => <ImportSuccess history={rprops.history} />} />
                 </div>
             </BrowserRouter>
         );
