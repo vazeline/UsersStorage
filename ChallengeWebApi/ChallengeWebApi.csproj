@@ -242,7 +242,7 @@
     <Content Include="App_Data\UsersDB_log.ldf">
       <DependentUpon>UsersDB.mdf</DependentUpon>
     </Content>
-    <Content Include="React\AddDialog.js" />
+    <Content Include="React\common\AddDialog.js" />
     <Content Include="React\App.js" />
     <Content Include="App_Data\UsersDB.ldf" />
     <Content Include="App_Data\UsersDB.mdf" />
@@ -254,18 +254,19 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="React\Button.js" />
-    <Content Include="React\config.js" />
-    <Content Include="React\MaterialStyles.js" />
-    <Content Include="React\ModalDialog.js" />
+    <Content Include="React\common\Button.js" />
+    <Content Include="React\common\config.js" />
+    <Content Include="React\common\MaterialStyles.js" />
+    <Content Include="React\common\ModalDialog.js" />
+    <Content Include="React\pages\ImportSuccess.js" />
     <Content Include="React\pages\ImportUsers.js" />
     <Content Include="React\pages\Layout.js" />
     <Content Include="React\pages\MainPage.js" />
     <Content Include="React\pages\StudentsList.js" />
     <Content Include="React\pages\Welcome.js" />
-    <Content Include="React\routes.js" />
-    <Content Include="React\TextField.js" />
-    <Content Include="React\Urls.js" />
+    <Content Include="React\common\routes.js" />
+    <Content Include="React\common\TextField.js" />
+    <Content Include="React\common\Urls.js" />
     <Content Include="readme.txt" />
     <Content Include="index.js" />
     <Content Include="Scripts\build\bundle.js" />

@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
-import * as st from '../MaterialStyles';
-import * as Urls from '../Urls';
+import * as st from '../common/MaterialStyles';
+import * as Urls from '../common/Urls';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 
 class Layout extends Component {

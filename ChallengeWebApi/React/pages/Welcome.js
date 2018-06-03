@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
-import Button from '../Button';
-import * as st from '../MaterialStyles';
+import Button from '../common/Button';
+import * as st from '../common/MaterialStyles';
 import Layout from './Layout';
 
 class Welcome extends Component {

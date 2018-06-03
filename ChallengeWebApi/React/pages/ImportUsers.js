@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import Layout from './Layout';
-import * as st from '../MaterialStyles';
-import * as urls from '../Urls';
-import Button from '../Button';
+import * as st from '../common/MaterialStyles';
+import * as urls from '../common/Urls';
+import Button from '../common/Button';
 
 export default class ImportUsers extends Component{
     render(){
         return (
         <Layout>
            <div className="commonContainer">
-            <span className="headerText">Welcome to users storage</span>
+            <span className="headerText">Choose csv file to upload</span>
             <form id="postFile" action="/api/Users/Upload" enctype="multipart/form-data" method="POST">
             <div style={{display:"table"}}>
             <div style={{display:"table-cell", verticalAlign: "left"}} >
