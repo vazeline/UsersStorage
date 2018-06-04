@@ -11,9 +11,16 @@
         You need to enable JavaScript to run this app.
     </noscript>
     <div id="content"></div>
-@Styles.Render("~/Content/less")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/less")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/bootstrap")
+
 
 <script src="~/Scripts/build/bundle.js"></script>
+
 
 </body>
 </html>

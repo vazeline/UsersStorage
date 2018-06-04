@@ -10,10 +10,10 @@ export default class ImportUsers extends Component{
         <Layout>
            <div className="commonContainer">
             <span className="headerText">Choose csv file to upload</span>
-            <form id="postFile" action="/api/Users/Upload" enctype="multipart/form-data" method="POST">
+                    <form id="postFile" className="containerNarrow" action="/api/Users/Upload" enctype="multipart/form-data" method="POST">
             <div style={{display:"table"}}>
             <div style={{display:"table-cell", verticalAlign: "left"}} >
-            <Button style={{...st.wbutton, height:'40px', width:'400px'}}>
+            <Button style={{...st.wbutton, height:'40px', width:'300px'}}>
                 <input type="file" label="Add file" accept=".csv" id="fileInput" multiple name='fileInput'/>
                 </Button>
                 </div>

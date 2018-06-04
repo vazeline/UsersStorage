@@ -1,3 +1,5 @@
+body{}
+
 .App {
 text-align: center;
 background-color:#242B45;
@@ -13,12 +15,17 @@ height: 100%;
 background-color: #242B45;
 }
 
-.layoutAuth{ 
-  width: 350px;
+.layoutMain{ 
+  width: 900px;
   margin: 0 auto 0 auto; 
 }
 
-.footerAuth{
+.containerNarrow {
+    width: 350px;
+    margin: auto;
+}
+
+.footerCommon{
   bottom: 10px; 
   width: 100%;
   color: #ADD6FE;
@@ -78,3 +85,48 @@ background-color: #242B45;
 .commonContainer { padding-bottom: 100px; height: 200px; }
 .layoutContainer { display:table-cell; vertical-align:middle; }
 .mainDetails{ width: 100%; padding-top: 80px; }
+
+.myinput { border: solid 1px transparent; color:black; background: transparent; }
+.myinput:hover { border: solid 1px gray; color:black; background: white; }
+
+
+div.mytable {
+    float: left;
+    margin: 20px;
+    background:white;
+}
+
+div.panel-body {
+    padding: 0px;
+}
+
+div.table-broad {
+    -moz-min-width: 650px;
+    -ms-min-width: 650px;
+    -o-min-width: 650px;
+    -webkit-min-width: 650px;
+    min-width: 650px;
+}
+
+div.table-narrow {
+    -moz-min-width: 400px;
+    -ms-min-width: 400px;
+    -o-min-width: 400px;
+    -webkit-min-width: 400px;
+    min-width: 400px;
+}
+
+
+.animateSaved {
+    background-color: transparent;
+    -webkit-animation-name: example;
+    -webkit-animation-duration: .7s;
+    -moz-animation-name: example;
+    -ms-animation-name: example;
+    -o-animation-name: example;
+    animation-name: example;
+    -moz-animation-duration: .7s;
+    -ms-animation-duration: .7s;
+    -o-animation-duration: .7s;
+    animation-duration: .7s;
+}

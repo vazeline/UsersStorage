@@ -38,6 +38,7 @@
     "babel-preset-stage-2": "^6.24.1",
     "css-loader": "^0.28.11",
     "path": "^0.12.7",
+    "qs": "^6.5.2",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-router": "^4.2.0",

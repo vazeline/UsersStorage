@@ -15,7 +15,7 @@ class Welcome extends Component {
             <Layout>
                 <div className="commonContainer">
                     <span className="headerText">Welcome to users storage</span>
-                    <div style={{ width: '100%' }}>
+                    <div className="containerNarrow">
                         <Button label="Upload Users" style={st.wbutton} onClick={(event) => this.toupload(event)} />
                         <Button label="Users List" style={st.wbutton} onClick={(event) => this.tolist(event)} />
                     </div>

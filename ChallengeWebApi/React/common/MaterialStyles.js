@@ -1,5 +1,5 @@
 const rbStyle = { margin: 10, width: '100%', borderRadius: '5px', backgroundColor: '#ADD6FE', color: '#242B45'/*, padding: '0 0 0 10px'*/, boxSizing: 'inherit' }
-const wbutton = { borderRadius: '5px', backgroundColor: '#ADD6FE', color: '#242B45', float: 'left', width: '150px', margin: '10px', botton: '0px', position: 'relative', top: '100px' }
+const wbutton = { borderRadius: '5px', fontSize: "14px", backgroundColor: '#ADD6FE', color: '#242B45', float: 'left', width: '150px', margin: '10px', botton: '0px', position: 'relative', top: '100px' }
 const inputBasic = { backgroundColor: 'white', borderRadius: '5px', height: '36px' }
 const textFieldStyle = { ...inputBasic, margin: '0px 10px 25px', width: '100%', color: '#242B45 !important' }
 const inputStyle = { borderRadius: '5px', width: '100%', padding: '0 0 0 10px' }

@@ -99,8 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\HomeControllerTest.cs" />
-    <Compile Include="Controllers\ValuesControllerTest.cs" />
+    <Compile Include="Controllers\UsersControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -109,6 +108,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Challenge.Data\Challenge.Data.csproj">
+      <Project>{82E78031-35EB-4F5E-8D10-93CED9FAA005}</Project>
+      <Name>Challenge.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ChallengeWebApi\ChallengeWebApi.csproj">
       <Project>{79A3A13B-27BB-4139-8085-5A5E9EFBBA2E}</Project>
       <Name>ChallengeWebApi</Name>

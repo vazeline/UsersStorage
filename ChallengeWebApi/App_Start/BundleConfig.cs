@@ -24,18 +24,9 @@ namespace ChallengeWebApi
                 "~/Scripts/bootstrap.js",
                 "~/Scripts/respond.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                "~/Content/bootstrap.css",
-                "~/Content/site.css"));
+            bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/bootstrap.css"));
 
-            bundles.Add(new BabelBundle("~/bundles/react").Include(
-                // Add your JSX files here
-                //"~/app/Comment.jsx",
-                //"~/app/CommentBox.jsx",
-                //"~/app/CommentList.jsx",
-                //"~/app/CommentForm.jsx",
-                "~/app/app.jsx"
-            ));
+            //bundles.Add(new BabelBundle("~/bundles/react").Include("~/app/app.jsx"));
 
             bundles.Add(new LessBundle("~/Content/less").Include("~/Content/*.less"));
         }

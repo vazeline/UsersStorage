@@ -22,7 +22,6 @@ namespace ChallengeWebApi.Controllers
     {
         private IUsersRepository _usersRepo;
 
-        // GET: api/UserProfiles
         public UsersController(IUsersRepository usersRepo)
         {
             _usersRepo = usersRepo;
@@ -84,37 +83,44 @@ namespace ChallengeWebApi.Controllers
             }
         }
 
-
-
-        // GET: api/Users/5
-        [ResponseType(typeof(UserModel))]
-        public IHttpActionResult GetUserProfile(int id)
+        [HttpGet, ResponseType(typeof(IEnumerable<UserModel>))]
+        public IHttpActionResult GetUsersList()
         {
-            UserModel userProfile = AutoMapper.Mapper.Map<UserModel>(_usersRepo.Find(id));
-            if (userProfile == null)
+            IEnumerable<UserModel> users;
+            try
+            {
+                users = _usersRepo.GetAllUsers().Select(AutoMapper.Mapper.Map<UserModel>);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+
+            return Ok(users);
+        }
+
+        [ResponseType(typeof(UserModel)), HttpGet, Route("api/users/getuser")]
+        public IHttpActionResult GetUser(int id)
+        {
+            UserModel user = AutoMapper.Mapper.Map<UserModel>(_usersRepo.Find(id));
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return Ok(userProfile);
+            return Ok(user);
         }
 
-        // PUT: api/UserProfiles/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutUserProfile(int id, UserModel userProfile)
+        [ResponseType(typeof(void)), HttpPut, ActionName("update")]
+        public IHttpActionResult PutUser(UserModel user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != userProfile.Id)
-            {
-                return BadRequest();
-            }
-
-            var user = AutoMapper.Mapper.Map<User>(userProfile);
-            _usersRepo.Update(user);
+            var userobj = AutoMapper.Mapper.Map<User>(user);
+            _usersRepo.Update(userobj);
 
             try
             {
@@ -122,48 +128,38 @@ namespace ChallengeWebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!UserExists(user.Id))
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
 
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Users
-        [ResponseType(typeof(UserModel))]
-        public IHttpActionResult PostUserProfile(UserModel userProfile)
+        [ResponseType(typeof(UserModel)), HttpPost, ActionName("new")]
+        public async Task<IHttpActionResult> PostUser(UserModel user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var user = AutoMapper.Mapper.Map<User>(userProfile);
-            _usersRepo.Insert(user);
-            _usersRepo.Save();
-
-            return CreatedAtRoute("DefaultApi", new { id = userProfile.Id }, userProfile);
+            var userobj = AutoMapper.Mapper.Map<User>(user);
+            _usersRepo.Insert(userobj);
+            return await _usersRepo.SaveAsync().ContinueWith(x => CreatedAtRoute("DefaultApi", new {id = userobj.Id}, user));
         }
 
-        // DELETE: api/Users/5
-        [ResponseType(typeof(UserModel))]
-        public IHttpActionResult DeleteUserProfile(int id)
+        [ResponseType(typeof(UserModel)), HttpDelete, ActionName("delete")]
+        public async Task<IHttpActionResult> DeleteUser(int id)
         {
-            User userProfile = _usersRepo.Find(id);
-            if (userProfile == null)
-            {
+            User user = _usersRepo.Find(id);
+            if (user == null)
                 return NotFound();
-            }
-            
-            _usersRepo.Delete(userProfile.Id);
-            _usersRepo.Save();
 
-            return Ok(userProfile);
+           _usersRepo.Delete(user.Id);
+           return await _usersRepo.SaveAsync().ContinueWith<IHttpActionResult>(Ok);
         }
         private bool UserExists(int id)
         {

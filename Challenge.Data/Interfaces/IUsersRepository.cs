@@ -9,5 +9,6 @@ namespace Challenge.Data.Interfaces
 {
     public interface IUsersRepository : IRepository<User>
     {
+        VUser[] GetAllUsers();
     }
 }

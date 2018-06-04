@@ -16,5 +16,6 @@ namespace Challenge.Data.Interfaces
         void Update(T entity);
         void Delete(int id);
         int Save();
+        Task<int> SaveAsync();
     }
 }

@@ -9,10 +9,10 @@ class Layout extends Component {
             <MuiThemeProvider>
                 <div className="App">
                 <div className="layoutContainer">
-                    <div className="layoutAuth">
+                    <div className="layoutMain">
                         {this.props.children}
                     </div>
-                    <div className="footerAuth"></div>
+                    <div className="footerCommon"></div>
                     </div>
                 </div>
             </MuiThemeProvider>

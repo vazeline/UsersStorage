@@ -4,9 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Challenge.Data.Entities
 {
     [Table("v_Users")]
-    public class VUser 
+    public class VUser
     {
-        [Key]
         public int Id { get; set; }
 
         public string FirstName { get; set; }
@@ -17,9 +16,8 @@ namespace Challenge.Data.Entities
 
         public decimal? Salary { get; set; }
 
-        public decimal? SalaryRate { get; set; }
+        public decimal? SalaryRatio { get; set; }
 
         public byte[] Version { get; set; }
-
     }
 }

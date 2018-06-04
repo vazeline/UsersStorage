@@ -11,11 +11,16 @@ using Challenge.Data.Interfaces;
 
 namespace Challenge.Data.Repositories
 {
-    public class UsersRepository : Repository<User>, IUsersRepository
+    public class UsersRepository : Repository<User, UsersContext>, IUsersRepository
     {
         public UsersRepository() : base(new UsersContext())
         {
             
+        }
+
+        public VUser[] GetAllUsers()
+        {
+            return Context.VUsers.ToArray();
         }
     }
 }

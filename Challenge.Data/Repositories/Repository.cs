@@ -12,24 +12,22 @@ namespace Challenge.Data.Repositories
     using System.Data.Entity;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Threading.Tasks;
 
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T, C> : IRepository<T> where T : class where C: DbContext
     {
-        private readonly DbContext context;
+        protected readonly C Context;
 
-        public Repository(DbContext ctx)
+        public Repository(C ctx)
         {
-            context = ctx;
+            Context = ctx;
         }
 
-        public IQueryable<T> All
-        {
-            get { return context.Set<T>(); }
-        }
+        public IQueryable<T> All => Context.Set<T>();
 
         public IQueryable<T> AllEager(params Expression<Func<T, object>>[] includes)
         {
-            IQueryable<T> query = context.Set<T>();
+            IQueryable<T> query = Context.Set<T>();
             foreach (var include in includes)
             {
                 query = query.Include(include);
@@ -40,32 +38,37 @@ namespace Challenge.Data.Repositories
 
         public T Find(int id)
         {
-            return context.Set<T>().Find(id);
+            return Context.Set<T>().Find(id);
         }
 
         public void Insert(T item)
         {
-            context.Entry(item).State = EntityState.Added;
+            Context.Entry(item).State = EntityState.Added;
         }
 
         public void Update(T item)
         {
-            context.Set<T>().Attach(item);
-            context.Entry(item).State = EntityState.Modified;
+            Context.Set<T>().Attach(item);
+            Context.Entry(item).State = EntityState.Modified;
         }
 
         public void Delete(int id)
         {
-            var item = context.Set<T>().Find(id);
-            context.Set<T>().Remove(item);
+            var item = Context.Set<T>().Find(id);
+            Context.Set<T>().Remove(item);
         }
+        public async Task<int> SaveAsync()
+        {
+            return await Context.SaveChangesAsync();
+        }
+
         public int Save()
         {
-            return context.SaveChanges();
+            return Context.SaveChanges();
         }
         public void Dispose()
         {
-            context.Dispose();
+            Context.Dispose();
         }
     }
 }

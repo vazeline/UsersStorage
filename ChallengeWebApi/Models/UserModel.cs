@@ -19,5 +19,9 @@ namespace ChallengeWebApi.Models
         public string PhoneNumber { get; set; }
 
         public decimal? Salary { get; set; }
+
+        public string SalaryRatio { get; set; }
+
+        public string Version { get; set; }
     }
 }

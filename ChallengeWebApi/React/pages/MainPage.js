@@ -1,182 +1,160 @@
-﻿// import React, { Component } from 'react';
-// import Layout from './Layout';
-// import * as urls from '../../resources/Urls';
-// import * as st from '../../resources/MaterialStyles';
-// import DropDownMenu from '@material-ui/core/DropDownMenu';
-// import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-// import { genericPostRequest, genericGetRequest } from '../../resources/Helpers';
-// import * as routes from '../../resources/routes';
-// import ModalDialog from '../../Components/ModalDialog';
-// import * as msg from '../../resources/MessageStrings';
-// import TextField from '@material-ui/core/TextField';
-// import { ValidatorForm } from 'react-material-ui-form-validator';
-// import IconButton from '@material-ui/core/IconButton';
-// import IconMenu from '@material-ui/core/IconMenu';
-// import MenuItem from '@material-ui/core/MenuItem';
-// import MoreVertIcon from '@material-ui/core/svg-icons/navigation/more-vert';
-// import SelectableList from '../../Components/SelectableList';
-// import { ListItem } from '@material-ui/core/List';
-// import AddDialog from './AddDialog';
+﻿import React, { Component } from 'react';
+import Layout from './Layout';
+import * as urls from '../common/Urls';
+import * as st from '../common/MaterialStyles';
+import * as req from '../common/Helpers';
+import * as routes from '../common/routes';
 
-// export default class MainPage extends Component {
+
+export default class MainPage extends Component {
  
-// constructor(props) {
-//         super(props);
-//         this.state = {
-//             value: 10,
-//             classItems: [],
-//             studentItems: [],
-//             currentStudents:[],
-//             selectedClass: null,
-//             dialogOpen: false,
-//             dialogCancel: true,
-//             dialogOk: true,
-//             dialogAction: null,
-//             addOpen: false,
-//             name: '',
-//             sortText: "˅",
-//             ascending:true,
-//             search: ""
-//          };
-//         this.ascending = true;
-//     }
+constructor(props) {
+       super(props);
+        this.state = {
+            userItems: [],
+            selectedUser: null
+         };
+    }
 
-//     componentWillMount(){
-//         ValidatorForm.addValidationRule('nameLength', (value) => {
-//             return !value || (value.length >= 6 && value.length <= 255);
-//         });
-//     }
-//     handleClose(){
-//         this.setState({ addOpen: false });
-//     }
-//     onClassSelected(event, index, value) {
-//         this.setState({ selectedClass: value });
-//         this.refreshStudents(value);
-//     }
-//     addClass() {
-//         this.setState({ addOpen: true, class: true, name: '' });
-//     }
-//     sortStudents() {
-//         this.ascending = !this.state.ascending;
-//         this.setState({ sortText: this.ascending ? "˅" : "˄", ascending: this.ascending });
-//         this.setState({ studentItems: this.state.studentItems.sort(this.compareStudentNames.bind(this)) });
-//     }
+    refreshUsers(){
+        let self = this;
+        req.genericGetRequest.call(self, (resp) => {
+            //let arr = Object.keys(students).map(function (key) { return students[key]; });
+            self.setState({ userItems: resp.data });
+        }, urls.ApiBaseUrl + routes.listUsers, null, null, true);
+    }
 
-//     addStudent() {
-//         this.setState({ addOpen: true, class: false, name: '', lastName:'',firstName:'', selectedDlgClasses:[], newclass:'',school:'' });
-//     }
-//     compareStudentNames(a, b) {
-//         let aname = a.lastName+' '+a.name;
-//         let bname = b.lastName+' '+b.name;
-//         if (aname < bname ) return this.ascending ? -1 : 1;
-//         if (aname > bname) return this.ascending ? 1: -1;
-//         return 0;
-//     }
-//     refreshStudents(classid){
-//         let self = this;
-//         let classUid = classid ? classid : self.state.selectedClass;
-//         if(!classUid)
-//             return;
-//         genericGetRequest.call(self, (resp) => {
-//             let students = resp.data.students;
-//             let arr = Object.keys(students).map(function (key) { return students[key]; });
-//             self.setState({ currentStudents: arr});
-//             self.setState({ studentItems: arr.sort(self.compareStudentNames.bind(this)) });
-//         }, urls.ApiBaseUrl + routes.listStudent.replace(':classUid', classUid).replace(":isRoster", '0'), null, null, true);
-//     }
+   componentDidMount() {
+       this.refreshUsers();
+    }
+    nvl (variable1, variable2) {
+        if (!variable2)
+            variable2 = "";
+        return variable1 ? variable1 : variable2;
+    }
+    editButtonClick(evt) {
+        var row = evt.target;
+        var ind = row.getAttribute('index');
+        let item = this.state.userItems[ind];
+        
+        var self = this;
+        req.genericPutRequest.call(this, item, (resp) => { self.refreshUsers(); }, urls.ApiBaseUrl + routes.putUser, null, null);
 
-//     handleAddClass(event) {
-//         this.form.submit();
-//     }
+        row.parentElement.parentElement.classList.remove('animateSaved')
+        setTimeout(() => { row.parentElement.parentElement.classList.add("animateSaved");  }, 0);
+    }
 
-//     handleSubmit(state) {
-//         let self = this;
-//         self.setState({ addOpen: false, name: '' });
-//         //todo: add modal progress dialog
-//         if (this.state.class) {
-//             let payload = { class: { name: state.name } };
-//             genericPostRequest.call(this, payload, (resp) => { self.refreshclassItems(); }, urls.ApiBaseUrl + routes.newClass, null, null, true);
-//         }
-//         else {
-//             let payload = { student: { name: state.name, lastName: state.lastName, school: state.school }, classes: state.selectedDlgClasses, newClass: state.newclass };
-//             genericPostRequest.call(this, payload, (resp) => { self.refreshclassItems(); }, urls.ApiBaseUrl + routes.newStudent, null, null, true);
-//         }
-//     }
+    deleteButtonClick(evt) {
+        var that = evt.target;
+        var ind = that.getAttribute('index');
+        
+        var self = this;
+        var id = this.state.userItems[ind].Id;
+        req.genericDeleteRequest.call(this,  (resp) => { self.refreshUsers(); }, urls.ApiBaseUrl + routes.deleteUser+"/"+id, null, null);
+    }
 
-//     componentDidMount() {
-//         this.refreshclassItems(true);
-//     }
+    addButtonClick(evt) {
+        var row = evt.target.parentElement.parentElement;
+        //document.querySelector("<selector>[myAttribute = \'aValue\']")
+        var item = {};
+        var fn =row.querySelector('input[data-prop=first_name]');
+        var ln =row.querySelector('input[data-prop=last_name]');
+        var pn =row.querySelector('input[data-prop=phone_number]');
+        var sr =row.querySelector('input[data-prop=salary]');
+        item.FirstName = fn.value;
+        item.LastName = ln.value;
+        item.PhoneNumber = pn.value;
+        item.Salary  = sr.value;
+        
+        //this.state.userItems.push(item);
+        var self = this;
+        req.genericPostRequest.call(this, item, (resp) => { 
+            self.refreshUsers(); 
+            fn.value = ln.value = pn.value = sr.value = "";
+        }, urls.ApiBaseUrl + routes.postUser, null, null);
+    }
+    updateFname(e, nv) 
+    { 
+        var ind = e.target.getAttribute('index');
+        this.state.userItems[ind].FirstName = e.target.value; 
+        this.setState({ userItems: this.state.userItems});
+    }
+    updateLname(e, nv) 
+    { 
+        var ind = e.target.getAttribute('index');
+        this.state.userItems[ind].LastName = e.target.value; 
+        this.setState({ userItems: this.state.userItems});
+    }
+    updatePhone(e, nv) 
+    { 
+        var ind = e.target.getAttribute('index');
+        this.state.userItems[ind].PhoneNumber = e.target.value; 
+        this.setState({ userItems: this.state.userItems });
+    }
+    updateSalary(e, nv) 
+    { 
+        var ind = e.target.getAttribute('index');
+        this.state.userItems[ind].Salary = e.target.value; 
+        this.setState({ userItems:this.state.userItems});
+    }
+    
+    render() {
+        let listItems = [];
+        if(this.state.userItems.length>0)
+            for (let i in this.state.userItems)
+            {
+                var row = this.state.userItems[i];
+                listItems.push(
+                        (<tr style={{ color: 'white' }} value={row} key={row.Id} version={row.Version}>
+                        <td><input index={i} data-prop="first_name" type="text" className="myinput" value={ this.nvl(row.FirstName)} onChange={this.updateFname.bind(this)}/></td>
+                        <td><input index={i} data-prop="last_name" type="text" className="myinput" value={ this.nvl(row.LastName)} onChange={this.updateLname.bind(this)}/></td>
+                        <td><input index={i} data-prop="phone_number" type="text" className="myinput" value={ this.nvl(row.PhoneNumber)} onChange={this.updatePhone.bind(this)}/></td>
+                        <td><input index={i} data-prop="salary" type="text" className="myinput" value={ this.nvl(row.Salary)} onChange={this.updateSalary.bind(this)}/></td> 
+                            <td><span data-prop="SalaryRatio" className="myinput"> { this.nvl(row.SalaryRatio, null) }</span></td>
+                            <td><button index={i} className="btn btn-xs btn-success" onClick={this.editButtonClick.bind(this)}>Сохранить</button></td>
+                            <td><button index={i} className="btn btn-xs btn-danger" onClick={this.deleteButtonClick.bind(this)} >Удалить</button></td>
+                            <td colspan="2"><button id="addBtn" style={{margin:"auto auto auto auto", display: "none"}} className="btn btn-xs btn-info">Добавить</button></td>
+                        </tr>)
+                );
+            }
 
-//     refreshclassItems(init) {
-//         let self = this;
-//         genericGetRequest.call(self, (resp) => {
-//             let classes = resp.data.classes;
-//             let classItems = [];
-//             let j = 0;
-//             for (let i in resp.data.classes) {
-//                 if (j++ === 0 && init)
-//                     self.setState({ selectedClass: i });
-//                 classItems.push(<MenuItem value={i} key={i} primaryText={resp.data.classes[i].name} />);
-//             }
-//             self.setState({ classList: classes });
-//             self.setState({ classItems: classItems });
-//             this.refreshStudents();
-//         }, urls.ApiBaseUrl + routes.listClass, null, null, true);
-//     }
-//     searchKeyPress(e)
-//     {
-//         e = e || window.event;
-//         if (e.key == 'Enter')
-//         {
-//             this.searchStud();
-//             return false;
-//         }
-//         return true;
-//     }
-//     onSearchChanged(e,newValue){
-//         this.setState({ search: newValue });
-//         if (!newValue)
-//             this.searchStud(newValue);
-//     }
-//     setSelected(stud){
-//         stud.classes = [];
-//         let keys = Object.keys(this.state.classList);
-//         for(let i in Object.keys(stud.studentClasses)){
-//             stud.classes.push({id:keys[i], value: this.state.classList[keys[i]]});
-//         }
-//         this.props.setSelectedStudent(stud);
-//     }
-//     searchStud(value){
-//         self=this;
-//         let substr = (value === "" ? value : self.state.search).toLowerCase();
-//         if(!self.state.search){
-//             self.setState({ studentItems: self.state.currentStudents.sort(self.compareStudentNames.bind(this)) });
-//             return;
-//         }
-//         let studs = [];
-//         let current=self.state.currentStudents;
-//         for(let i in current)
-//             {
-//                 let flname =  ('' + current[i].lastName + ' ' + current[i].name).toLowerCase();
-//                 if(flname.indexOf(substr) >=0)
-//                     studs.push(current[i]);
-//             }
+        return (<Layout>
+                    <div className="commonContainer">
+                        <div className="headerText">Manage users</div> 
+                            <div className="panel panel-default mytable table-broad" style={{width:"100%"}} >
+                                <div className="panel-heading">
+                                    <h4 className="panel-title">Persons</h4>
+                                </div> 
 
-//         self.setState({ studentItems: studs.sort(self.compareStudentNames.bind(this)) });
-//     }
+                                <table id="persons" className="table table-striped table-hover">
+                                    <tr>
+                                        <td>first_name</td>
+                                        <td>last_name</td>
+                                        <td>phone_number</td>
+                                        <td>salary</td>
+                                        <td>salary ratio</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr> 
+                                    {listItems}
+                                        <tr style={{ color: 'white' }}>
+                                        <td><input data-prop="first_name" type="text" className="myinput" /></td>
+                                        <td><input data-prop="last_name" type="text" className="myinput" /></td>
+                                        <td><input data-prop="phone_number" type="text" className="myinput" /></td>
+                                        <td><input data-prop="salary" type="text" className="myinput" /></td> 
+                                        <td></td>
 
-//     render() {
-//         return (<Layout>
-//         <div>
-//             <div className="studBlock">
-//                 <h2>Manage users</h2>
-//             </div>
-//             <div className="studBlock">
-//                 {
-//                     stud.name || stud.lastName ? (<h2>Goals</h2>) : ''
-//                 }
-//             </div>
-//             </div>
-//         </Layout>);
-//     }
-// }
+                                        <td style={{display:"none"}}><button id="editBtn" className="btn btn-xs btn-success">Сохранить</button></td>
+                                        <td style={{display:"none"}}><button id="deleteBtn" className="btn btn-xs btn-danger">Удалить</button></td>
+                                        <td colspan="2"><button id="addBtn" style={{ margin: "auto auto auto auto", display: "block"}} onClick={this.addButtonClick.bind(this)} 
+                                                    className="btn btn-xs btn-info">Добавить</button></td>
+                                    </tr> 
+                                </table>
+                            </div>
+                        </div>  
+                </Layout>);
+        
+    }
+}

@@ -22,6 +22,7 @@ namespace Challenge.Data.Entities
 
         public decimal? Salary { get; set; }
 
+        [Timestamp]
         public byte[] Version { get; set; }
 
         public static User DeserializeLine(string userLine)
@@ -29,12 +30,14 @@ namespace Challenge.Data.Entities
             string[] split = userLine.Split(';');
             try
             {
+                Func<string,string> trim = (str) => str.Trim('\t',' ', '\'', '"');
+
                 return new User
                 {
-                    FirstName = split[0],
-                    LastName = split[1],
-                    PhoneNumber = split[2],
-                    Salary = ToDecimal(split[3])
+                    FirstName = trim(split[0]),
+                    LastName = trim(split[1]),
+                    PhoneNumber = trim(split[2]),
+                    Salary = ToDecimal(trim(split[3]))
                 };
             }
             catch (Exception ex)

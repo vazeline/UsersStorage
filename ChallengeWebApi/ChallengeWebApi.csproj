@@ -242,13 +242,15 @@
     <Content Include="App_Data\UsersDB_log.ldf">
       <DependentUpon>UsersDB.mdf</DependentUpon>
     </Content>
-    <Content Include="React\common\AddDialog.js" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="React\App.js" />
     <Content Include="App_Data\UsersDB.ldf" />
     <Content Include="App_Data\UsersDB.mdf" />
     <Content Include="Content\App.css" />
     <Content Include="Content\base.css" />
-    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
@@ -256,26 +258,41 @@
     </Content>
     <Content Include="React\common\Button.js" />
     <Content Include="React\common\config.js" />
+    <Content Include="React\common\Helpers.js" />
     <Content Include="React\common\MaterialStyles.js" />
     <Content Include="React\common\ModalDialog.js" />
     <Content Include="React\pages\ImportSuccess.js" />
     <Content Include="React\pages\ImportUsers.js" />
     <Content Include="React\pages\Layout.js" />
     <Content Include="React\pages\MainPage.js" />
-    <Content Include="React\pages\StudentsList.js" />
     <Content Include="React\pages\Welcome.js" />
     <Content Include="React\common\routes.js" />
     <Content Include="React\common\TextField.js" />
     <Content Include="React\common\Urls.js" />
     <Content Include="readme.txt" />
     <Content Include="index.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\build\bundle.js" />
+    <Content Include="Scripts\build\bundle.js.map" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
+    <Content Include="Scripts\respond.min.js" />
     <Content Include="Sql\dbo.Trigger.sql" />
     <Content Include="Sql\dbo.Users.sql" />
     <Content Include="Sql\dbo.v_Users.sql" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -294,8 +311,14 @@
     <Content Include="package-lock.json" />
     <Content Include="Content\App.less" />
     <Content Include="Content\index.less" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
     <None Include="packages.config" />
     <Content Include="webpack.config.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Attributes\" />
