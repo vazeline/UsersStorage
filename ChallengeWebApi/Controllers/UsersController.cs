@@ -27,6 +27,10 @@ namespace ChallengeWebApi.Controllers
             _usersRepo = usersRepo;
         }
 
+        /// <summary>
+        /// upload file with users and insert all rows from csv
+        /// </summary>
+        /// <returns></returns>
         [HttpPost, Route("api/users/upload")]
         public async Task<IHttpActionResult> Upload()
         {
@@ -83,6 +87,9 @@ namespace ChallengeWebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// get list of all users 
+        /// </summary>
         [HttpGet, ResponseType(typeof(IEnumerable<UserModel>))]
         public IHttpActionResult GetUsersList()
         {
@@ -99,6 +106,9 @@ namespace ChallengeWebApi.Controllers
             return Ok(users);
         }
 
+        /// <summary>
+        /// get user by id
+        /// </summary>
         [ResponseType(typeof(UserModel)), HttpGet, Route("api/users/getuser")]
         public IHttpActionResult GetUser(int id)
         {
@@ -111,6 +121,9 @@ namespace ChallengeWebApi.Controllers
             return Ok(user);
         }
 
+        /// <summary>
+        /// update user
+        /// </summary>
         [ResponseType(typeof(void)), HttpPut, ActionName("update")]
         public IHttpActionResult PutUser(UserModel user)
         {
@@ -139,6 +152,9 @@ namespace ChallengeWebApi.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        /// <summary>
+        /// insert new user
+        /// </summary>
         [ResponseType(typeof(UserModel)), HttpPost, ActionName("new")]
         public async Task<IHttpActionResult> PostUser(UserModel user)
         {
@@ -148,9 +164,16 @@ namespace ChallengeWebApi.Controllers
             }
             var userobj = AutoMapper.Mapper.Map<User>(user);
             _usersRepo.Insert(userobj);
-            return await _usersRepo.SaveAsync().ContinueWith(x => CreatedAtRoute("DefaultApi", new {id = userobj.Id}, user));
+            return await _usersRepo.SaveAsync().ContinueWith(x =>
+            {
+                user.Id = userobj.Id;
+                return CreatedAtRoute("DefaultApi", new {id = userobj.Id}, user);
+            });
         }
 
+        /// <summary>
+        /// delete user by id
+        /// </summary>
         [ResponseType(typeof(UserModel)), HttpDelete, ActionName("delete")]
         public async Task<IHttpActionResult> DeleteUser(int id)
         {

@@ -14,11 +14,16 @@ namespace Challenge.Data.Repositories
     using System.Linq.Expressions;
     using System.Threading.Tasks;
 
-    public class Repository<T, C> : IRepository<T> where T : class where C: DbContext
+    /// <summary>
+    /// basic repository with CRUD operations
+    /// </summary>
+    /// <typeparam name="T">type of entity</typeparam>
+    /// <typeparam name="TC">DBContext type</typeparam>
+    public class Repository<T, TC> : IRepository<T> where T : class where TC: DbContext
     {
-        protected readonly C Context;
+        public readonly TC Context;
 
-        public Repository(C ctx)
+        public Repository(TC ctx)
         {
             Context = ctx;
         }

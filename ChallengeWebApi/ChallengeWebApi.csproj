@@ -260,14 +260,12 @@
     <Content Include="React\common\config.js" />
     <Content Include="React\common\Helpers.js" />
     <Content Include="React\common\MaterialStyles.js" />
-    <Content Include="React\common\ModalDialog.js" />
     <Content Include="React\pages\ImportSuccess.js" />
     <Content Include="React\pages\ImportUsers.js" />
     <Content Include="React\pages\Layout.js" />
     <Content Include="React\pages\MainPage.js" />
     <Content Include="React\pages\Welcome.js" />
     <Content Include="React\common\routes.js" />
-    <Content Include="React\common\TextField.js" />
     <Content Include="React\common\Urls.js" />
     <Content Include="readme.txt" />
     <Content Include="index.js" />
@@ -275,6 +273,8 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\build\bundle.js" />
     <Content Include="Scripts\build\bundle.js.map" />
+    <Content Include="App_Data\Data Large.csv" />
+    <Content Include="App_Data\Data.csv" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -285,6 +285,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Sql\Adduser.sql" />
     <Content Include="Sql\dbo.Trigger.sql" />
     <Content Include="Sql\dbo.Users.sql" />
     <Content Include="Sql\dbo.v_Users.sql" />

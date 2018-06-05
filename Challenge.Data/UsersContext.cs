@@ -10,6 +10,7 @@ namespace Challenge.Data
         public UsersContext() : base("name=UsersDB") { }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            Database.SetInitializer<UsersContext>(null);
             modelBuilder.Configurations.Add(new UserMapping());
         }
 

@@ -3,7 +3,7 @@ import axios from 'axios';
 import * as qs from 'qs';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-
+//TODO: add progress (like CircularProgress) to UI
 const genericRequest = function (method, payload, onsuccess, url, setMessage, message) {
     var self = this;
     setMessage = setMessage ? setMessage : (err) => err;

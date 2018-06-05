@@ -7,6 +7,9 @@ namespace ChallengeWebApi.Models
 {
     using System.ComponentModel.DataAnnotations;
 
+    /// <summary>
+    /// user's business logic class
+    /// </summary>
     public class UserModel
     {
         public int Id { get; set; }
@@ -20,8 +23,14 @@ namespace ChallengeWebApi.Models
 
         public decimal? Salary { get; set; }
 
+        /// <summary>
+        /// SalaryRatio = IndividualSalary / TotalSalary
+        /// </summary>
         public string SalaryRatio { get; set; }
 
+        /// <summary>
+        /// timestamp of current row
+        /// </summary>
         public string Version { get; set; }
     }
 }

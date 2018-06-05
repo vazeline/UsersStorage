@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Challenge.Data.Entities
 {
+    /// <summary>
+    /// the view row data class, shouldn't be derived from table row class
+    /// </summary>
     [Table("v_Users")]
     public class VUser
     {
